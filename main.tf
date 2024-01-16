@@ -86,10 +86,10 @@ resource "aws_instance" "instance" {
   vpc_security_group_ids = [aws_security_group.sg.id]
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
 
-  tags = {
+  tags = merge({
     Name = "${var.component}-${var.env}"
-  }
-
+    },
+    var.tags)
 }
 
 #### DNS Rout_53
