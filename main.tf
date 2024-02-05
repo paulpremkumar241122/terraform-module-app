@@ -1,6 +1,6 @@
 ##### Security Group
 
-resource "aws_security_group" "sg" {
+resource "aws_security_group" "main" {
   name        = "${var.component}-${var.env}-sg"
   description = "${var.component}-${var.env}-sg"
   vpc_id      = var.vpc_id
@@ -39,7 +39,7 @@ resource "aws_launch_template" "main" {
   }
   image_id = data.aws_ami.ami.id
   instance_type = var.instance_type
-  vpc_security_group_ids = [ aws_security_group.sg.id ]
+  vpc_security_group_ids = [ aws_security_group.main.id ]
 
   tag_specifications {
     resource_type = "instance"
