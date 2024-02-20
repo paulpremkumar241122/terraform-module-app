@@ -63,10 +63,11 @@ resource "aws_launch_template" "main" {
 }
 
 resource "aws_lb_target_group" "main" {
-  name        = "${var.component}-${var.env}"
-  port        = var.app_port
-  protocol    = "HTTP"
-  vpc_id      = var.vpc_id
+  name                 = "${var.component}-${var.env}"
+  port                 = var.app_port
+  protocol             = "HTTP"
+  deregistration_delay = 20
+  vpc_id               = var.vpc_id
 
   health_check {
     enabled             = true
