@@ -53,6 +53,8 @@ resource "aws_launch_template" "main" {
     tags = merge({ Name = "${var.component}-${var.env}", Monitor = "true" }, var.tags)
   }
 
+  depends_on = [ aws_route53_record.dns ]
+
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
     env = var.env
     component = var.component
@@ -105,7 +107,6 @@ resource "aws_lb_listener_rule" "static" {
 }
 
 resource "aws_autoscaling_group" "main" {
- # depends_on = [ aws_route53_record.dns ]
   desired_capacity   = var.desired_capacity
   max_size           = var.max_size
   min_size           = var.min_size
