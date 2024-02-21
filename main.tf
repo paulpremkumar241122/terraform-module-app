@@ -60,7 +60,7 @@ resource "aws_launch_template" "main" {
     tags = merge({ Name = "${var.component}-${var.env}", Monitor = "true" }, var.tags)
   }
 
-  depends_on = [ aws_route53_record.dns ]
+  #depends_on = [ aws_route53_record.dns ]
 
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
     env = var.env
