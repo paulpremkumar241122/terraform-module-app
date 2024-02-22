@@ -60,8 +60,7 @@ resource "aws_launch_template" "main" {
     tags = merge({ Name = "${var.component}-${var.env}", Monitor = "true" }, var.tags)
   }
 
-  #depends_on = [ aws_route53_record.dns ]
-
+  depends_on = [ null_resource.sleep ]
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
     env = var.env
     component = var.component
@@ -132,4 +131,11 @@ resource "aws_route53_record" "dns" {
   type    = "CNAME"
   ttl     = 30
   records = [var.lb_dns_name]
+}
+
+resource "null_resource" "sleep" {
+  depends_on = [ aws_route53_record.dns ]
+  provisioner "local-exec" {
+    command = "sleep 120"
+  }
 }
