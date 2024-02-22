@@ -51,20 +51,19 @@ resource "aws_launch_template" "main" {
   iam_instance_profile {
     name = aws_iam_instance_profile.instance_profile.name
   }
-  image_id = data.aws_ami.ami.id
-  instance_type = var.instance_type
-  vpc_security_group_ids = [ aws_security_group.sg.id ]
+  image_id               = data.aws_ami.ami.id
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [aws_security_group.sg.id]
 
   tag_specifications {
     resource_type = "instance"
-    tags = merge({ Name = "${var.component}-${var.env}", Monitor = "true" }, var.tags)
+    tags          = merge({ Name = "${var.component}-${var.env}", Monitor = "true" }, var.tags)
   }
 
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
-    env = var.env
+    env       = var.env
     component = var.component
   }))
-
 #  block_device_mappings {
 #    device_name = "/dev/sda1"
 #
