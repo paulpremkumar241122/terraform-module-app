@@ -26,13 +26,6 @@ resource "aws_security_group" "sg" {
     cidr_blocks      = var.allow_prometheus_cidr
   }
 
-  ingress {
-    from_port        = 3000
-    to_port          = 3000
-    protocol         = "tcp"
-    cidr_blocks      = var.allow_prometheus_cidr
-  }
-
   egress {
     from_port        = 0
     to_port          = 0
